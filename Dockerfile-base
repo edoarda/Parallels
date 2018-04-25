@@ -6,7 +6,7 @@ RUN groupadd -r lab -g 1000 && useradd -u 1000 -r -g lab -m -d /home/lab -s /sbi
    chmod 755 /home/lab
 
 # instalando trecos!
- RUN apt update && apt install -y openssh-server gcc openmpi-bin openmpi-doc libopenmpi-dev git
+ RUN apt update && apt install -y openssh-server gcc openmpi-bin openmpi-doc libopenmpi-dev git iputils-ping
 
 #WORKDIR /home/lab/mpi/halflings
 
