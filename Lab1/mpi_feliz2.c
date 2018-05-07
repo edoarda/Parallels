@@ -4,11 +4,14 @@
 int main (int argc, char** argv) {
     int world_rank;
     int world_size;
+    double t1, t2; 
+    
     MPI_Request	send_request,recv_request;
     
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    t1 = MPI_Wtime();
     
 	//printf("Size %d \n", world_size);
     //checa se eu posso rodar esse amiguineo
@@ -42,7 +45,7 @@ int main (int argc, char** argv) {
 	printf("Tarefa-Lorde %d recebeu tarefa de %d\n", world_rank, destino);
         
 	
-	MPI_Finalize();    
+	   
     } else {
         int destino;
         if (world_rank < (world_size/2)) {
@@ -64,10 +67,12 @@ int main (int argc, char** argv) {
         printf("Tarefa %d recebeu tarefa de %d\n", world_rank, destino);
         
     // Finalize the MPI environment.
-    MPI_Finalize();
+    
     
     }
-    
+    t2 = MPI_Wtime(); 
+    printf( "Elapsed time is %f\n", t2 - t1 ); 
+    MPI_Finalize();
  
 }
 
