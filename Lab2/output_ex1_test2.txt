@@ -1,0 +1,175 @@
+******************** MPI Bandwidth Test ********************
+Message start size= 100000 bytes
+Message finish size= 1000000 bytes
+Incremented by 100000 bytes per iteration
+Roundtrips per iteration= 100
+MPI_Wtick resolution = 1.000000e-06
+************************************************************
+task    0 is on L307-4C partner=   4
+task    1 is on L307-4C partner=   5
+task    2 is on L307-4C partner=   6
+task    3 is on L307-4C partner=   7
+task    4 is on L307-4A partner=   0
+task    5 is on L307-4A partner=   1
+task    6 is on L307-4A partner=   2
+task    7 is on L307-4A partner=   3
+************************************************************
+***Message size:   100000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    66.60 / 51.70 / 31.81 
+   task pair:    1 -    5:    62.91 / 51.54 / 35.17 
+   task pair:    2 -    6:    64.43 / 50.04 / 26.66 
+   task pair:    3 -    7:    56.16 / 49.15 / 26.50 
+   OVERALL AVERAGES:          62.53 / 50.61 / 30.04 
+
+***Message size:   200000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    61.72 / 53.81 / 33.34 
+   task pair:    1 -    5:    73.61 / 55.29 / 34.80 
+   task pair:    2 -    6:    61.79 / 53.86 / 29.41 
+   task pair:    3 -    7:    61.22 / 53.56 / 25.36 
+   OVERALL AVERAGES:          64.58 / 54.13 / 30.73 
+
+***Message size:   300000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    65.60 / 56.20 / 32.29 
+   task pair:    1 -    5:    64.39 / 56.16 / 35.31 
+   task pair:    2 -    6:    67.15 / 55.06 / 32.44 
+   task pair:    3 -    7:    63.01 / 55.02 / 33.08 
+   OVERALL AVERAGES:          65.04 / 55.61 / 33.28 
+
+***Message size:   400000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    60.93 / 56.14 / 32.61 
+   task pair:    1 -    5:    62.48 / 56.42 / 36.38 
+   task pair:    2 -    6:    67.58 / 55.65 / 37.83 
+   task pair:    3 -    7:    61.39 / 55.63 / 34.60 
+   OVERALL AVERAGES:          63.09 / 55.96 / 35.35 
+
+***Message size:   500000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    68.01 / 54.92 / 23.18 
+   task pair:    1 -    5:    72.62 / 56.14 / 35.95 
+   task pair:    2 -    6:    68.08 / 54.51 / 33.71 
+   task pair:    3 -    7:    62.83 / 55.40 / 39.09 
+   OVERALL AVERAGES:          67.89 / 55.24 / 32.98 
+
+***Message size:   600000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    61.42 / 50.53 / 31.11 
+   task pair:    1 -    5:    70.80 / 55.22 / 35.90 
+   task pair:    2 -    6:    61.07 / 50.59 / 27.21 
+   task pair:    3 -    7:    76.43 / 54.00 / 31.38 
+   OVERALL AVERAGES:          67.43 / 52.58 / 31.40 
+
+***Message size:   700000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    61.13 / 54.31 / 38.59 
+   task pair:    1 -    5:    66.82 / 55.77 / 38.51 
+   task pair:    2 -    6:    60.75 / 53.84 / 34.17 
+   task pair:    3 -    7:    62.18 / 54.73 / 29.79 
+   OVERALL AVERAGES:          62.72 / 54.66 / 35.27 
+
+***Message size:   800000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    59.26 / 53.91 / 36.06 
+   task pair:    1 -    5:    72.12 / 55.79 / 39.76 
+   task pair:    2 -    6:    61.75 / 53.61 / 33.74 
+   task pair:    3 -    7:    68.55 / 53.58 / 24.66 
+   OVERALL AVERAGES:          65.42 / 54.22 / 33.55 
+
+***Message size:   900000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    63.80 / 55.16 / 37.01 
+   task pair:    1 -    5:    64.03 / 54.78 / 36.58 
+   task pair:    2 -    6:    62.44 / 55.31 / 38.60 
+   task pair:    3 -    7:    65.59 / 54.97 / 38.63 
+   OVERALL AVERAGES:          63.97 / 55.05 / 37.70 
+
+***Message size:  1000000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    106.58 / 59.48 / 44.66 
+   task pair:    1 -    5:    64.36 / 56.65 / 42.46 
+   task pair:    2 -    6:    106.36 / 59.25 / 40.17 
+   task pair:    3 -    7:    74.66 / 56.67 / 42.33 
+   OVERALL AVERAGES:          87.99 / 58.01 / 42.41 
+
+
+-----------------------------------------------------------------------------------------------------------
+
+******************** MPI Bandwidth Test ********************
+Message start size= 100000 bytes
+Message finish size= 1000000 bytes
+Incremented by 100000 bytes per iteration
+Roundtrips per iteration= 100
+MPI_Wtick resolution = 1.000000e-06
+************************************************************
+task    0 is on L307-4C partner=   4
+task    1 is on L307-4C partner=   5
+task    2 is on L307-4C partner=   6
+task    3 is on L307-4C partner=   7
+task    4 is on L307-4A partner=   0
+task    5 is on L307-4A partner=   1
+task    6 is on L307-4A partner=   2
+task    7 is on L307-4A partner=   3
+************************************************************
+***Message size:   100000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    58.10 / 48.40 / 14.86 
+   task pair:    1 -    5:    72.94 / 53.77 / 30.09 
+   task pair:    2 -    6:    67.89 / 50.28 / 11.10 
+   task pair:    3 -    7:    64.06 / 51.28 / 31.05 
+   OVERALL AVERAGES:          65.75 / 50.93 / 21.77 
+
+***Message size:   200000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    64.91 / 54.72 / 27.42 
+   task pair:    1 -    5:    62.12 / 55.78 / 39.63 
+   task pair:    2 -    6:    64.26 / 55.42 / 32.99 
+   task pair:    3 -    7:    60.92 / 55.30 / 32.82 
+   OVERALL AVERAGES:          63.05 / 55.30 / 33.22 
+
+***Message size:   300000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    72.43 / 54.61 / 31.87 
+   task pair:    1 -    5:    95.74 / 52.65 / 14.31 
+   task pair:    2 -    6:    77.49 / 55.94 / 17.84 
+   task pair:    3 -    7:    82.58 / 51.61 / 18.90 
+   OVERALL AVERAGES:          82.06 / 53.70 / 20.73 
+
+***Message size:   400000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    65.84 / 53.57 / 26.02 
+   task pair:    1 -    5:    72.56 / 52.27 / 22.57 
+   task pair:    2 -    6:    75.13 / 54.94 / 23.77 
+   task pair:    3 -    7:    62.95 / 54.35 / 35.43 
+   OVERALL AVERAGES:          69.12 / 53.78 / 26.95 
+
+***Message size:   500000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    61.66 / 55.93 / 42.61 
+   task pair:    1 -    5:    62.87 / 56.09 / 23.69 
+   task pair:    2 -    6:    73.69 / 56.66 / 38.89 
+   task pair:    3 -    7:    75.12 / 56.67 / 38.72 
+   OVERALL AVERAGES:          68.34 / 56.34 / 35.98 
+
+***Message size:   600000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    62.15 / 55.39 / 37.14 
+   task pair:    1 -    5:    60.07 / 54.68 / 32.25 
+   task pair:    2 -    6:    70.40 / 56.31 / 39.52 
+   task pair:    3 -    7:    65.88 / 55.53 / 37.03 
+   OVERALL AVERAGES:          64.62 / 55.48 / 36.48 
+
+***Message size:   700000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    64.27 / 53.66 / 35.23 
+   task pair:    1 -    5:    61.57 / 53.31 / 27.24 
+   task pair:    2 -    6:    69.98 / 54.15 / 35.13 
+   task pair:    3 -    7:    68.17 / 53.67 / 34.34 
+   OVERALL AVERAGES:          66.00 / 53.70 / 32.99 
+
+***Message size:   800000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    61.42 / 55.50 / 35.46 
+   task pair:    1 -    5:    60.10 / 55.67 / 36.73 
+   task pair:    2 -    6:    61.76 / 56.81 / 35.89 
+   task pair:    3 -    7:    73.62 / 56.47 / 35.44 
+   OVERALL AVERAGES:          64.22 / 56.11 / 35.88 
+
+***Message size:   900000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    61.30 / 52.87 / 34.30 
+   task pair:    1 -    5:    61.84 / 52.81 / 35.98 
+   task pair:    2 -    6:    64.86 / 54.39 / 36.48 
+   task pair:    3 -    7:    64.93 / 53.04 / 31.69 
+   OVERALL AVERAGES:          63.23 / 53.28 / 34.61 
+
+***Message size:  1000000 *** best  /  avg  / worst (MB/sec)
+   task pair:    0 -    4:    114.02 / 58.12 / 27.14 
+   task pair:    1 -    5:    93.52 / 57.46 / 37.70 
+   task pair:    2 -    6:    61.85 / 55.10 / 12.19 
+   task pair:    3 -    7:    74.12 / 56.25 / 37.38 
+   OVERALL AVERAGES:          85.88 / 56.73 / 28.60 
+
