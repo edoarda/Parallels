@@ -1,0 +1,5 @@
+For developing/debugging>
+https://hub.docker.com/r/nlknguyen/alpine-mpich/
+
+For testing on a cluster>
+https://github.com/NLKNguyen/alpine-mpich/wiki/Single-Host-Orchestration

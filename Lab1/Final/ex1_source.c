@@ -4,13 +4,13 @@
 int main (int argc, char** argv) {
     int world_rank;
     int world_size;
-    double t1, t2; 
-    
-    MPI_Request	send_request,recv_request;
+    double t1, t2;
     
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    
+    MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime();
     
 	//printf("Size %d \n", world_size);
@@ -33,19 +33,17 @@ int main (int argc, char** argv) {
             destino = world_rank - (world_size/2);
         }
         //ENVIA O RANKING
-        MPI_Isend(&world_rank, 1, MPI_INT, destino, 0, MPI_COMM_WORLD, &send_request);
+        MPI_Send(&world_rank, 1, MPI_INT, destino, 0, MPI_COMM_WORLD);
         
         //IMPRIME
         printf("Tarefa-Lorde %d enviou tarefa para %d\n", world_rank, destino);
         
         //RECEBE O RANKING
         int resposta;
-        MPI_Irecv(&resposta, 1, MPI_INT, destino, 0, MPI_COMM_WORLD, &recv_request);
+        MPI_Recv(&resposta, 1, MPI_INT, destino, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
 	printf("Tarefa-Lorde %d recebeu tarefa de %d\n", world_rank, destino);
-        
-	
-	   
+           
     } else {
         int destino;
         if (world_rank < (world_size/2)) {
@@ -54,25 +52,25 @@ int main (int argc, char** argv) {
             destino = world_rank - (world_size/2);
         }
         //ENVIA O RANKING
-        MPI_Isend(&world_rank, 1, MPI_INT, destino, 0, MPI_COMM_WORLD, &send_request);
+        MPI_Send(&world_rank, 1, MPI_INT, destino, 0, MPI_COMM_WORLD);
         
         //IMPRIME
         printf("Tarefa %d enviou tarefa para %d\n", world_rank, destino);
         
         //RECEBE O RANKING
         int resposta;
-        MPI_Irecv(&resposta, 1, MPI_INT, destino, 0, MPI_COMM_WORLD, &recv_request);
+        MPI_Recv(&resposta, 1, MPI_INT, destino, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         
         //IMPRIME
         printf("Tarefa %d recebeu tarefa de %d\n", world_rank, destino);
         
     // Finalize the MPI environment.
-    
-    
     }
-    t2 = MPI_Wtime(); 
-    printf( "Elapsed time is %f\n", t2 - t1 ); 
-    MPI_Finalize();
- 
+    MPI_Barrier(MPI_COMM_WORLD);
+    t2 = MPI_Wtime();
+    MPI_Finalize(); 
+    if (world_rank == 0)
+        printf( "Elapsed time is %f\n", t2 - t1 ); 
+   
 }
 

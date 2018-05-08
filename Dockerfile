@@ -1,13 +1,6 @@
 FROM mpi_base
 MAINTAINER Edoarda <edvallim@gmail.com>
 
-# criando usuario
-# RUN groupadd -r lab -g 1000 && useradd -u 1000 -r -g lab -m -d /home/lab -s /sbin/nologin -c "Lab user" lab && \
-   # chmod 755 /home/lab
-
-# instalando trecos!
- # RUN apt update && apt install -y openssh-server gcc openmpi-bin openmpi-doc libopenmpi-dev
-
 WORKDIR /home/lab/mpi/halflings
 
 ADD . /home/lab/mpi/halflings

@@ -1,0 +1,117 @@
+
+<!-- saved from url=(0058)http://www2.ic.uff.br/~simone/labprogparal/lab2/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Laboratório de Programação Paralela</title>
+<style></style></head><body>
+<center>
+<h1>Laboratório de Programação Paralela 2018.1</h1>
+<h1>Laboratório 2  -  Testando o  MPI </h1>
+</center>
+<p>
+Neste laboratório, voce irá utilizar o padrão MPI (Message Passing Interface). 
+<br>
+Este padrão possui várias implementações e usaremos a implementação  <a href="http://www.open-mpi.org/"> Open MPI </a>.
+<br>
+Os programas deverão ser codificados na linguagem C.
+
+</p><h3> Dicas de uso </h3>
+<ul>
+<li>Um programa MPI deve seguir a seguinte estrutura:
+<p>
+<img src="./Laboratório de Programação Paralela_files/prog_structure.jpg">
+</p></li><li>Todo programa MPI escrito em C deve incluir a diretiva <pre>#include "mpi.h"</pre>
+</li><li>Todas as chamadas das rotinas MPI, começam com o nome <font face="Courier" size="2">MPI_ </font> e variáveis e funções do programa não devem iniciar com <font face="Courier" size="2">MPI_ </font> ou <font face="Courier" size="2">PMPI_ </font>.
+</li><li> MPI usa objetos chamados comunicadores e grupos para definir quais processos podem se comunicar uns com os outros.
+A maioria das rotinas MPI requer que seja especificado um comunicador como um argumento. Por enquanto, basta usar MPI_COMM_WORLD sempre que um comunicador for necessário - é o comunicador predefinido que inclui todos os seus processos MPI.
+</li><li> Dentro de um comunicador, cada processo tem seu próprio identificador que é um número inteiro atribuído pelo sistema quando o processo é inicializado. 
+</li></ul>
+<h3> Rotinas para gerenciar o ambiente
+</h3>
+Estas rotinas são usadas para verificar e configurar o ambiente de execução MPI.
+Algumas das mais utilizadas são: 
+<ul>
+
+<li> MPI_Init (&amp;argc,&amp;argv) <br>
+Inicializa o ambiente de execução MPI. Esta função deve ser chamada em cada programa MPI, antes de qualquer outra função MPI e apenas uma vez em um programa MPI. Pode ser usada para passar os argumentos de linha de comando para todos os processos, embora isso não seja exigido pelo padrão e dependa da implementação.
+
+</li><li> MPI_Comm_size (comm,&amp;size) <br>
+
+
+Retorna o número total de processos MPI em um comunicador específico. Se o comunicador for MPI_COMM_WORLD, esta função retorna o número de tarefas MPI disponíveis para a aplicação. 
+</li><li> MPI_Comm_rank (comm,&amp;rank) <br>
+
+
+Retorna o número de rank do processo MPI que chama esta rotina dentro do comunicador especificado. Inicialmente, a cada processo será atribuído um único inteiro entre 0 e número de tarefas - 1 dentro do comunicador MPI_COMM_WORLD. Se um processo se torna associado com outros comunicadores, ele terá uma classificação única dentro de cada um destes comunicadores.
+
+</li><li> MPI_Abort (comm,errorcode)<br>
+
+
+Finaliza todos os processos MPI associados ao comunicador. Na maioria das implementações MPI, ele encerra TODOS os processos independentemente do comunicador especificado.
+
+</li><li> MPI_Get_processor_name (&amp;name,&amp;resultlength)<br>
+
+
+Retorna o nome do processador. Também retorna o comprimento do nome. O buffer para "name" deve ter, a capacidade de armazenar pelo menos MPI_MAX_PROCESSOR_NAME caracteres. 
+
+</li><li> MPI_Get_version (&amp;version,&amp;subversion)<br>
+
+
+Retorna a versão e a subversão do padrão MPI implementado pela biblioteca.
+
+</li><li> MPI_Wtime ()<br>
+
+
+Retorna um tempo de relógio de parede decorrido em segundos (precisão dupla) no processador que fez a chamada da rotina.
+
+</li><li> MPI_Finalize ()<br>
+
+
+Termina o ambiente de execução MPI. Esta função deve ser a última rotina MPI chamada em cada programa MPI - nenhuma outra rotina MPI pode ser chamada depois dela.
+
+</li></ul>
+
+<h1> Exercício 1</h1>
+Neste exercício voce irá comparar o desempenho quando a comunicação se realiza entre nós do mesmo processador e nós de processadores diferentes. 
+<ol>
+<li>Compile o programa <a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bandwidth.c"> mpi_bandwidth .c </a>.
+</li><li>Execute o código com 2 tarefas no mesmo processador e verifique a largura de banda (bandwidths)
+</li><li> Execute o código com 2 tarefas em  processadores diferentes e verifique a largura de banda (bandwidths)
+</li><li> Escreva  suas observações sobre os comportamentos
+</li></ol>
+
+<h1> Exercício 2</h1>
+Neste exercício voce irá comparar envio e recebimento bloqueante e não bloqueante
+
+<ol>
+<li>Copie o programa <a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bandwidth.c"> mpi_bandwidth .c </a> para um arquivo chamado mpi_bandwidthNB.c
+</li><li>Modifique este novo arquivo de modo que sejam executadas funçãoes não bloqueantes de envio e recebimento ao invés de bloqueantes.Você irá fazer isso trocando o trecho de código abaixo:
+<pre>      MPI_Send(&amp;msgbuf, n, MPI_CHAR, dest, tag, MPI_COMM_WORLD);
+      MPI_Recv(&amp;msgbuf, n, MPI_CHAR, src, tag, MPI_COMM_WORLD, &amp;status);
+</pre>
+
+por
+
+<pre>      MPI_Isend(&amp;msgbuf, n, MPI_CHAR, dest, tag, MPI_COMM_WORLD, &amp;reqs[0]);
+      MPI_Irecv(&amp;msgbuf, n, MPI_CHAR, src, tag, MPI_COMM_WORLD, &amp;reqs[1]);
+      MPI_Waitall(2, reqs, stats);
+</pre>
+</li><li> Execute os dois programas (bloqueante e não bloqueante) executando 2 tarefas em 2 nós diferentes.
+</li><li> Compare os resultados. Explique qual possui melhor desempenho.
+</li></ol>
+
+<h1> Exercício 3</h1>
+Neste exercíco você tentará descobrir erros que podem ocorrer em programas MPI. Compile e execute cada um e execute utilizando 4 tarefas.
+<ol>
+<li><a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bug1.c"> mpi_bug1.c </a>: Fica parado
+</li><li><a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bug2.c"> mpi_bug2.c </a>: Resultados errados ou terminação anormal
+</li><li><a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bug3.c"> mpi_bug3.c </a>: Mensagem de erro e/ou terminação anormal
+</li><li><a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bug4.c"> mpi_bug4.c </a>: Fornece resultado errrado para "Final sum"
+</li><li><a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bug5.c"> mpi_bug5.c </a>: Programa é terminado anormalemente ou trava
+</li><li><a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bug6.c">mpi_bug6.c </a>: Termina ou é ignorado
+</li><li><a href="http://www2.ic.uff.br/~simone/labprogparal/lab2/mpi_bug7.c">mpi_bug7.c </a>: Trava
+</li></ol>
+
+
+
+
+
+</body></html>
