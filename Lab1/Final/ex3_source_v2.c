@@ -3,6 +3,18 @@
 #include "mpi.h"
 #define	ARRAYSIZE 128
 
+void imprime_5_primeiros(float* data, int qtd, int world_size) {
+    int i, j;
+    for (i=0; i < world_size; i++) {
+        printf("Processo %d me mandou: ", i);
+        for (j=0; j < qtd; j++) {
+            if (j < 5)
+                printf("%f ", data[(qtd*i) + j]);    
+        }
+        printf("\n");
+    }
+}
+
 int main (int argc, char** argv) {
     //MPI variables
     int world_rank;
@@ -61,11 +73,11 @@ int main (int argc, char** argv) {
 
     if (world_rank == 0) {
         //falta imprimir os 5 primeiros q ele recebeu eu não sei como fazer, acho que são uns for bem logicos
+        imprime_5_primeiros(final_data, qtd, world_size);
         for(i=0; i<ARRAYSIZE; i++)
             resultado += final_data[i];
 
         printf("Resultado total foi %f!\n", resultado);
-    
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
