@@ -19,7 +19,9 @@ void InsertionSort(int N, int *A)
 void Shellsort(int N, int *A)
 {
   int i, j, h, v;
-  h = 1; while (h < N) h = 2*h + 1;
+  h = 1; 
+  while (h < N) 
+    h = 2*h + 1;
   h /= 2;
   while (h != 1) {
     h /= 2;
@@ -36,6 +38,28 @@ void Shellsort(int N, int *A)
   InsertionSort(N,A);  // clean up
 }
 
+
+void ShellShort(int *A, int n) {
+  int incr = n/2;
+  while (incr > 0) {
+    for (int i=incr+1; i<n; i++) {
+      j=i-incr;
+      while (j > 0)
+        if(A[j] > A[j+incr]) {
+          //swap
+          int temp = A[j];
+          A[j] = A[j+incr];
+          a[j+incr] = temp;
+          //end swap
+          j = j - incr;          
+        }
+        else j = 0;
+    }
+    incr = incr/2;
+  }
+  InsertionSort(N,A);
+}
+
 int main(){
 	printf("oi");
 	int temp[11] = {2,5,9,7,1,6,8,3,4,5,-666};
@@ -43,7 +67,7 @@ int main(){
 	a=temp;
 	
 	printf("oi");
-	Shellsort(11, a);
+	ShellShort(a, 11);
 	printf("oi");
 	int i;
 	for(i=0; i<11; i++){
