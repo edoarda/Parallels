@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
 
 void InsertionSort(int N, int *A)
 {
@@ -16,26 +18,73 @@ void InsertionSort(int N, int *A)
   }
 }
 
-void Shellsort(int N, int *A)
-{
-  int i, j, h, v;
-  h = 1; 
-  while (h < N) 
-    h = 2*h + 1;
-  h /= 2;
-  while (h != 1) {
-    h /= 2;
-    for (i = h; i < N; i++) {
-      v = A[i]; j = i;
-      while (A[j-h] > v) {
-        A[j] = A[j-h]; j = j - h;
-        if (j <= h) break;
-      }
-      A[j] = v;
+void ShellShort(int *A, int n) {
+  int i, j;
+  int incr = n/2;
+  while (incr > 0) {
+    for (int i=incr+1; i<n; i++) {
+      j=i-incr;
+      while (j > 0)
+        if(A[j] > A[j+incr]) {
+          //swap
+          int temp = A[j];
+          A[j] = A[j+incr];
+          A[j+incr] = temp;
+          //end swap
+          j = j - incr;          
+        }
+        else j = 0;
     }
-    h /= 2;
+    incr = incr/2;
   }
-  InsertionSort(N,A);  // clean up
+  InsertionSort(n,A);
+}
+
+
+int main(int argc, char **argv) {
+	if (argc < 2) {
+		printf("USAGE: %s tamanho do vetor (valores do vetor gerados aleatoriamente)\n", argv[0]);
+		return 1;
+	}
+	int tamDoVetor= atoi(argv[1]);
+
+	
+
+	//gera valores pro vetor
+	srand(time(0));
+	int vetor[tamDoVetor];
+
+	for(int i = 0; i<tamDoVetor; i++)
+		vetor[i]=rand();
+	//fim geração
+	
+	//time stuff
+	struct timeval start, end;
+ 	gettimeofday(&start, NULL);
+
+	/*
+	int i;
+	
+	printf("# # # # VETOR ORIGINAL # # # #\n");
+	for(i=0; i<tamDoVetor; i++){
+		printf("%d ",vetor[i]);
+	}
+	printf("\n# # # # # # # # # # # # # # # #\n");
+	printf("\n");
+	*/
+
+	ShellShort(vetor, tamDoVetor);
+	/*
+	printf("# # # # VETOR ORDENADO # # # #\n");
+	for(i=0; i<tamDoVetor; i++){
+		printf("%d ",vetor[i]);
+	}
+	printf("\n# # # # # # # # # # # # # # # #\n");
+	printf("\n");
+	*/
+  gettimeofday(&end, NULL);
+  printf("Tempo Decorrido: %ld milissegundos!\n", ((end.tv_sec * 1000000 + end.tv_usec)
+          - (start.tv_sec * 1000000 + start.tv_usec)));
 }
 
 
