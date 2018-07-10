@@ -119,38 +119,42 @@ int main(int argc, char **argv)
 	int * data;
 	int * chunk;
 	int * other;
-	int m,n;
-	int id,p;
+	int m,tamDoVetor;
+	int world_rank,world_size;
 	int s;
-	int i;
+	int i; //indice pro for
 	int step;
 	MPI_Status status;
 	struct timeval start, end;
 
-	MPI_Init(&argc,&argv);
-	MPI_Comm_rank(MPI_COMM_WORLD,&id);
-	MPI_Comm_size(MPI_COMM_WORLD,&p);
-	
-	n = atoi(argv[1]);
+	if (argc < 2) {
+		printf("USAGE: %s tamanho do vetor (valores do vetor no programa)\n", argv[0]);
+		return 1;
+	}
 
-	if(id==0)
+	MPI_Init(&argc,&argv);
+	MPI_Comm_rank(MPI_COMM_WORLD,&world_rank);
+	MPI_Comm_size(MPI_COMM_WORLD,&world_size);
+	tamDoVetor = atoi(argv[1]);
+
+
+//MESTRE
+	if(world_rank==0)
 	{
-		int r;
-		s = n/p;
-		r = n%p;
-		data = (int *)malloc((n+p-r)*sizeof(int));
-		printf("llenando vector (%d datos)...\n",n);
+		//int r;
+		s = tamDoVetor/world_size;
+		//r = tamDoVetor%world_size;
+		data = (int *)malloc((tamDoVetor+world_size-r)*sizeof(int));
 		srand(time(0));
-		for(i=0;i<n;i++)
+		for(i=0;i<tamDoVetor;i++)
 			data[i] = (rand()%400);
-		if(r!=0)
+		/*if(r!=0)
 		{
-			for(i=n;i<n+p-r;i++)
+			for(i=tamDoVetor;i<tamDoVetor+world_size-r;i++)
   			   data[i]=0;
 			s=s+1;
-		}
-		//Imprimir(data, n);
-		printf("Ejecutando shellsort paralelo...\n");
+		}*/
+		//Imprimir(data, tamDoVetor);
 		
 		gettimeofday(&start, NULL);
 
@@ -161,7 +165,7 @@ int main(int argc, char **argv)
 	}
 
 
-/**************************** worker task ************************************/
+//TRABALHADORES
 	else
 	{
 		MPI_Bcast(&s,1,MPI_INT,0,MPI_COMM_WORLD);
@@ -171,29 +175,29 @@ int main(int argc, char **argv)
 	}
 
 	step = 1;
-	while(step<p)
+	while(step<world_size)
 	{
-		if(id%(2*step)==0)
+		if(world_rank%(2*step)==0)
 		{
-			if(id+step<p)
+			if(world_rank+step<world_size)
 			{
-				MPI_Recv(&m,1,MPI_INT,id+step,0,MPI_COMM_WORLD,&status);
+				MPI_Recv(&m,1,MPI_INT,world_rank+step,0,MPI_COMM_WORLD,&status);
 				other = (int *)malloc(m*sizeof(int));
-				MPI_Recv(other,m,MPI_INT,id+step,0,MPI_COMM_WORLD,&status);
+				MPI_Recv(other,m,MPI_INT,world_rank+step,0,MPI_COMM_WORLD,&status);
 				chunk = merge(chunk,s,other,m);
 				s = s+m;
 			}
 		}
 		else
 		{
-			int near = id-step;
+			int near = world_rank-step;
 			MPI_Send(&s,1,MPI_INT,near,0,MPI_COMM_WORLD);
 			MPI_Send(chunk,s,MPI_INT,near,0,MPI_COMM_WORLD);
 			break;
 		}
 		step = step*2;
 	}
-	if(id==0)
+	if(world_rank==0)
 	{
 		gettimeofday(&end, NULL);
 		printf("Tempo Decorrido: %ld milissegundos!\n", ((end.tv_sec * 1000000 + end.tv_usec) 
