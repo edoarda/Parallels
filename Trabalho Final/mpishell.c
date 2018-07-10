@@ -7,16 +7,14 @@
 //define NUM 24000
 //original 140000
 
-void Imprimir(int *array,int length) //print array elements
-{
+void Imprimir(int *array,int length){ //print array elements
     int i=0;
     for(i=0;i<length;i++)
         printf("%d ",array[i]);
 	printf("\n");
 }
 
-int * merge(int *v1, int n1, int *v2, int n2)
-{
+int * merge(int *v1, int n1, int *v2, int n2){
 	int i,j,k;
 	int * result;
 
@@ -24,25 +22,21 @@ int * merge(int *v1, int n1, int *v2, int n2)
 
 	i=0; j=0; k=0;
 	while(i<n1 && j<n2)
-		if(v1[i]<v2[j])
-		{
+		if(v1[i]<v2[j]){
 			result[k] = v1[i];
 			i++; k++;
 		}
-		else
-		{
+		else{
 			result[k] = v2[j];
 			j++; k++;
 		}
 	if(i==n1)
-		while(j<n2)
-		{
+		while(j<n2){
 			result[k] = v2[j];
 			j++; k++;
 		}
 	else
-		while(i<n1)
-		{
+		while(i<n1){
 			result[k] = v1[i];
 			i++; k++;
 		}
@@ -77,8 +71,7 @@ void shellsort (int numbers[], int array_size)
 }
 */
 
-void InsertionSort(int N, int *A)
-{
+void InsertionSort(int N, int *A){
   int i, j, v;
   for (i = 1; i < N; i++) {
     v = A[i]; 
@@ -114,14 +107,13 @@ void ShellShort(int *A, int n) {
   InsertionSort(n,A);
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
 	int * data;
 	int * chunk;
-	int * other;
-	int m,tamDoVetor;
+	int * aux;
+	int tamVetorFracionado,tamDoVetor;
 	int world_rank,world_size;
-	int s;
+	int tamVetorParcial;
 	int i; //indice pro for
 	int step;
 	MPI_Status status;
@@ -139,12 +131,12 @@ int main(int argc, char **argv)
 
 
 //MESTRE
-	if(world_rank==0)
-	{
+	if(world_rank==0){
 		//int r;
-		s = tamDoVetor/world_size;
+		tamVetorParcial = tamDoVetor/world_size;
 		//r = tamDoVetor%world_size;
-		data = (int *)malloc((tamDoVetor+world_size-r)*sizeof(int));
+		//data = (int *)malloc((tamDoVetor+world_size-r)*sizeof(int));
+		data = (int *)malloc((tamDoVetor+world_size)*sizeof(int));
 		srand(time(0));
 		for(i=0;i<tamDoVetor;i++)
 			data[i] = (rand()%400);
@@ -152,53 +144,47 @@ int main(int argc, char **argv)
 		{
 			for(i=tamDoVetor;i<tamDoVetor+world_size-r;i++)
   			   data[i]=0;
-			s=s+1;
+			tamVetorParcial=tamVetorParcial+1;
 		}*/
 		//Imprimir(data, tamDoVetor);
 		
 		gettimeofday(&start, NULL);
 
-		MPI_Bcast(&s,1,MPI_INT,0,MPI_COMM_WORLD);
-		chunk = (int *)malloc(s*sizeof(int));
-		MPI_Scatter(data,s,MPI_INT,chunk,s,MPI_INT,0,MPI_COMM_WORLD);
-		ShellShort(chunk,s);
+		MPI_Bcast(&tamVetorParcial,1,MPI_INT,0,MPI_COMM_WORLD);
+		chunk = (int *)malloc(tamVetorParcial*sizeof(int));
+		MPI_Scatter(data,tamVetorParcial,MPI_INT,chunk,tamVetorParcial,MPI_INT,0,MPI_COMM_WORLD);
+		ShellShort(chunk,tamVetorParcial);
 	}
 
 
 //TRABALHADORES
-	else
-	{
-		MPI_Bcast(&s,1,MPI_INT,0,MPI_COMM_WORLD);
-		chunk = (int *)malloc(s*sizeof(int));
-		MPI_Scatter(data,s,MPI_INT,chunk,s,MPI_INT,0,MPI_COMM_WORLD);
-		ShellShort(chunk,s);
+	else{
+		MPI_Bcast(&tamVetorParcial,1,MPI_INT,0,MPI_COMM_WORLD);
+		chunk = (int *)malloc(tamVetorParcial*sizeof(int));
+		MPI_Scatter(data,tamVetorParcial,MPI_INT,chunk,tamVetorParcial,MPI_INT,0,MPI_COMM_WORLD);
+		ShellShort(chunk,tamVetorParcial);
 	}
 
 	step = 1;
-	while(step<world_size)
-	{
-		if(world_rank%(2*step)==0)
-		{
-			if(world_rank+step<world_size)
-			{
-				MPI_Recv(&m,1,MPI_INT,world_rank+step,0,MPI_COMM_WORLD,&status);
-				other = (int *)malloc(m*sizeof(int));
-				MPI_Recv(other,m,MPI_INT,world_rank+step,0,MPI_COMM_WORLD,&status);
-				chunk = merge(chunk,s,other,m);
-				s = s+m;
+	while(step<world_size){
+		if(world_rank%(2*step)==0){
+			if(world_rank+step<world_size){
+				MPI_Recv(&tamVetorFracionado,1,MPI_INT,world_rank+step,0,MPI_COMM_WORLD,&status);
+				aux = (int *)malloc(tamVetorFracionado*sizeof(int));
+				MPI_Recv(aux,tamVetorFracionado,MPI_INT,world_rank+step,0,MPI_COMM_WORLD,&status);
+				chunk = merge(chunk,tamVetorParcial,aux,tamVetorFracionado);
+				tamVetorParcial = tamVetorParcial+tamVetorFracionado;
 			}
 		}
-		else
-		{
+		else{
 			int near = world_rank-step;
-			MPI_Send(&s,1,MPI_INT,near,0,MPI_COMM_WORLD);
-			MPI_Send(chunk,s,MPI_INT,near,0,MPI_COMM_WORLD);
+			MPI_Send(&tamVetorParcial,1,MPI_INT,near,0,MPI_COMM_WORLD);
+			MPI_Send(chunk,tamVetorParcial,MPI_INT,near,0,MPI_COMM_WORLD);
 			break;
 		}
 		step = step*2;
 	}
-	if(world_rank==0)
-	{
+	if(world_rank==0){
 		gettimeofday(&end, NULL);
 		printf("Tempo Decorrido: %ld milissegundos!\n", ((end.tv_sec * 1000000 + end.tv_usec) 
 		- (start.tv_sec * 1000000 + start.tv_usec)));
